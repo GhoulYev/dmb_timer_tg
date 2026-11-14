@@ -73,6 +73,24 @@ h3{margin:0 .3rem;font-size:.95rem;font-weight:700}
 .nav button[aria-selected="true"]{color:var(--text)}
 .nav svg{width:1.5rem;height:1.5rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .card.done .v{color:var(--text)}
+
+@media (max-width: 380px){
+  main{padding:.7rem .7rem .7rem}
+  .hero{padding:.7rem .65rem}
+  .u b{font-size:1.4rem}
+  .r1 .u b{font-size:2.7rem}
+  .u span,.tile span{font-size:.62rem}
+  .tile b{font-size:1.05rem}
+  .card{grid-template-columns:auto 1fr;gap:.32rem .5rem;padding:.45rem .65rem}
+  .card .bar{grid-column:1/-1}
+  .vl{grid-column:2;text-align:left}
+  .nm b{font-size:.9rem}
+  .nm small,.s,.vl small{font-size:.63rem}
+  .v{font-size:.9rem}
+  .sn .v{font-size:.82rem}
+  .grid{gap:.42rem}
+  .sec{gap:.28rem}
+}
 </style>
 </head>
 <body>
@@ -147,6 +165,7 @@ function diff(a,b){
  return{m:m,d:Math.floor(r/86400),h:Math.floor(r%86400/3600),mi:Math.floor(r%3600/60),s:r%60}
 }
 function fmt(x){return (x.m?x.m+' мес ':'')+x.d+' дн '+pad(x.h)+':'+pad(x.mi)+':'+pad(x.s)}
+function fmtCompact(x){return (x.m?x.m+' мес ':'')+(x.d?x.d+' дн ':'')+pad(x.h)+':'+pad(x.mi)+':'+pad(x.s)}
 function sd(d){return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+String(d.getFullYear()).slice(2)}
 var D=['день','дня','дней'];
 
@@ -164,9 +183,9 @@ function upd(it,now){
  var el=it.el,s=el.querySelector('.s'),v=el.querySelector('.v'),bar=el.querySelector('.bar i');
  el.classList.remove('done');
  var p=now<it.a?0:now>=it.b?100:(now-it.a)/(it.b-it.a)*100,pt=p.toFixed(p===0||p>=100?0:1)+'%',pc=el.querySelector('.pc'),st;
- if(now<it.a){st='до начала';v.textContent=fmt(diff(now,it.a));}
+ if(now<it.a){st='до начала';v.textContent=fmtCompact(diff(now,it.a));}
  else if(now>=it.b){st='завершено';v.textContent='Пройдено ✓';el.classList.add('done');}
- else{st='до конца';v.textContent=fmt(diff(now,it.b));}
+ else{st='до конца';v.textContent=fmtCompact(diff(now,it.b));}
  bar.style.width=p.toFixed(2)+'%';
  if(pc){pc.textContent=pt;s.textContent=st;}else{s.textContent=st+' · '+pt;}
 }
